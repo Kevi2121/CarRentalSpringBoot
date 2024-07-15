@@ -19,7 +19,7 @@ public class CarDto {
 
     private String description;
 
-    private Long Price;
+    private Long price;
 
     private Date year;
 

@@ -33,11 +33,11 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request ->
-                request.requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/auth/**").hasAnyAuthority(UserRole.ADMIN.name()).
-                        requestMatchers("/api/customer/**").hasAnyAuthority(UserRole.CUSTOMER.name()).
-                        anyRequest().authenticated()).sessionManagement(manager ->
-                manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).
+                        request.requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/auth/**").hasAnyAuthority(UserRole.ADMIN.name()).
+                                requestMatchers("/api/customer/**").hasAnyAuthority(UserRole.CUSTOMER.name()).
+                                anyRequest().authenticated()).sessionManagement(manager ->
+                        manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).
                 authenticationProvider(authenticationProvider()).
                 addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
