@@ -35,8 +35,8 @@ public class SimpleCorsFilter implements Filter {
     public void init(FilterConfig filterConfig){
 
     }
-@Override
+    @Override
     public void destroy(){
 
-}
     }
+}
