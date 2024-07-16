@@ -1,7 +1,7 @@
 package com.carrentalproject.Car_Rental_Spring.services.admin;
 
 import com.carrentalproject.Car_Rental_Spring.dto.CarDto;
-import com.carrentalproject.Car_Rental_Spring.entity.Car;
+import com.carrentalproject.Car_Rental_Spring.Entity.Car;
 import com.carrentalproject.Car_Rental_Spring.repostory.CarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,9 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public CarDto getCarById(Long id) {
+ JurgesBranch
         Optional<Car> optionalCar = carRepository.findById(id);
+
         return optionalCar.map(Car::getCarDto).orElse(null);
     }
 }

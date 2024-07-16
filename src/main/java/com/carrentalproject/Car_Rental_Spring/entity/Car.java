@@ -1,4 +1,4 @@
-package com.carrentalproject.Car_Rental_Spring.entity;
+package com.carrentalproject.Car_Rental_Spring.Entity;
 
 import com.carrentalproject.Car_Rental_Spring.dto.CarDto;
 import jakarta.persistence.*;
