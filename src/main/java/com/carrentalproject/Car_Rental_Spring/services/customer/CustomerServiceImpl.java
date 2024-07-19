@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
     private final CarRepository carRepository;
     private final UserRepository userRepository;
-    private BookACarRepository bookACarRepository;
+    private final BookACarRepository bookACarRepository;
 
     @Override
     public List<CarDto> getAllCars() {
@@ -54,5 +54,10 @@ return true;
     public CarDto getCarById(Long carId) {
         Optional<Car>optionalCar = carRepository.findById(carId);
         return optionalCar.map(Car::getCarDto).orElse(null);
+    }
+
+    @Override
+    public List<BookACarDto> getBookingsByUserId(Long userId) {
+        return bookACarRepository.findAllByUserId(userId).stream().map(BookACar::getBookACarDto).collect(Collectors.toList());
     }
 }

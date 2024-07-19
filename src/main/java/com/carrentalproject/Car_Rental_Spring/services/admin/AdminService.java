@@ -1,5 +1,6 @@
 package com.carrentalproject.Car_Rental_Spring.services.admin;
 
+import com.carrentalproject.Car_Rental_Spring.dto.BookACarDto;
 import com.carrentalproject.Car_Rental_Spring.dto.CarDto;
 import org.springframework.aop.target.LazyInitTargetSource;
 
@@ -14,6 +15,10 @@ public interface AdminService {
 
    CarDto getCarById(Long id);
    boolean updateCar(Long carId,CarDto carDto) throws IOException;
+
+   List<BookACarDto> getBookings();
+
+   boolean changeBookingStatus(Long bookingId,String status);
 
 
 }

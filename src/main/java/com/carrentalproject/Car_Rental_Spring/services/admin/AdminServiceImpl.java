@@ -1,13 +1,18 @@
 package com.carrentalproject.Car_Rental_Spring.services.admin;
 
+import com.carrentalproject.Car_Rental_Spring.Entity.BookACar;
+import com.carrentalproject.Car_Rental_Spring.dto.BookACarDto;
 import com.carrentalproject.Car_Rental_Spring.dto.CarDto;
 import com.carrentalproject.Car_Rental_Spring.Entity.Car;
+import com.carrentalproject.Car_Rental_Spring.enums.BookCarStatus;
+import com.carrentalproject.Car_Rental_Spring.repostory.BookACarRepository;
 import com.carrentalproject.Car_Rental_Spring.repostory.CarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,7 +21,7 @@ import java.util.stream.Collectors;
 public class AdminServiceImpl implements AdminService{
 
     private final CarRepository carRepository;
-
+private final BookACarRepository bookACarRepository;
     @Override
     public boolean postCar(CarDto carDto) throws IOException {
         try {
@@ -76,5 +81,25 @@ public class AdminServiceImpl implements AdminService{
 
 
         }
+    }
+
+    @Override
+    public List<BookACarDto> getBookings() {
+        return bookACarRepository.findAll().stream().map(BookACar::getBookACarDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean changeBookingStatus(Long bookingId, String status) {
+        Optional<BookACar>optionalBookACar = bookACarRepository.findById(bookingId);
+        if(optionalBookACar.isPresent()){
+            BookACar existingBookACar = optionalBookACar.get();
+            if(Objects.equals(status,"Approve"))
+                existingBookACar.setBookCarStatus(BookCarStatus.APPROVED);
+            else
+                existingBookACar.setBookCarStatus(BookCarStatus.REJECTED);
+            bookACarRepository.save(existingBookACar);
+            return true;
+        }
+        return false;
     }
 }

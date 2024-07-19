@@ -1,5 +1,6 @@
 package com.carrentalproject.Car_Rental_Spring.controller;
 
+import com.carrentalproject.Car_Rental_Spring.dto.BookACarDto;
 import com.carrentalproject.Car_Rental_Spring.dto.CarDto;
 import com.carrentalproject.Car_Rental_Spring.services.admin.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -52,6 +54,15 @@ return ResponseEntity.ok(carDto);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
+    @GetMapping("/car/bookings")
+    public ResponseEntity<List<BookACarDto>> getBokings(){
+        return ResponseEntity.ok(adminService.getBookings());
+    }
+    @GetMapping("/car/booking/{bookingId}/{}")
+    public ResponseEntity<?>changeBookingStatus(@PathVariable Long bookingId, @PathVariable String status){
+       boolean success = adminService.changeBookingStatus(bookingId, status);
+       if(success)return ResponseEntity.ok().build();
+       return ResponseEntity.notFound().build();
+    }
 
 }
