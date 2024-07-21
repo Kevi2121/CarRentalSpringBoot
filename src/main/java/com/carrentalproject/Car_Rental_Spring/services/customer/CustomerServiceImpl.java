@@ -33,22 +33,31 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public boolean bookACar(BookACarDto bookACarDto) {
         Optional<Car> optionalCar = carRepository.findById(bookACarDto.getCarId());
-        Optional<User>optionalUser = userRepository.findById(bookACarDto.getUserId());
-        if(optionalCar.isPresent() && optionalUser.isPresent()){
+        Optional<User> optionalUser = userRepository.findById(bookACarDto.getUserId());
+        if (optionalCar.isPresent() && optionalUser.isPresent()) {
             Car existingCar = optionalCar.get();
             BookACar bookACar = new BookACar();
             bookACar.setUser(optionalUser.get());
             bookACar.setCar(existingCar);
             bookACar.setBookCarStatus(BookCarStatus.PENDING);
+
+            bookACar.setFromDate(bookACarDto.getFromDate());
+            bookACar.setToDate(bookACarDto.getToDate());
+
             long diffInMilliSeconds = bookACarDto.getToDate().getTime() - bookACarDto.getFromDate().getTime();
-            long days = TimeUnit.MICROSECONDS.toDays(diffInMilliSeconds);
+            long days = TimeUnit.MILLISECONDS.toDays(diffInMilliSeconds);
+
             bookACar.setDays(days);
             bookACar.setPrice(existingCar.getPrice() * days);
-bookACarRepository.save(bookACar);
-return true;
+            bookACarRepository.save(bookACar);
+
+            return true;
         }
+
         return false;
     }
+
+
 
     @Override
     public CarDto getCarById(Long carId) {
